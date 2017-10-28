@@ -12,23 +12,23 @@
 /* wrapper for perror */
 void error(char *msg) {
     perror(msg);
-    exit(1);
+    exit(EXIT_FAILURE);
   }
 
 int main(int argc, char **argv)
 {
-    int s;
-    int port;
-    struct sockaddr_in server;
-    char message[32];
+    int s; /* socket */
+    int port; /* port number */
+    struct sockaddr_in server; /* server structure */
+    char buffer[32];
     int n;
-    struct servent *appl_name;
-    unsigned int serverlen;
+    struct servent *application_name;
+    unsigned int server_length;
 
     /* check if there is at least one program argument */
     if (argc < 2)
     {
-        fprintf(stderr, "usage: %s address.IP.server [port]\n", argv[0]);
+        fprintf(stderr, "usage: %s address.IP.server port-number\n", argv[0]);
         exit(0);
     }
 
@@ -40,16 +40,16 @@ int main(int argc, char **argv)
     }
     else
     { /* get the port by getservbyname when is not passed as argument */
-        appl_name = getservbyname("daytime", "udp");
+        application_name = getservbyname("daytime", "udp");
 
-        if (!appl_name)
+        if (!application_name)
         {
             printf("unknown application daytime\n");
             exit(0);
         }
         else
         {
-            port = appl_name->s_port;
+            port = application_name->s_port;
             printf("getservbyname was successful\n");
         }
     }
@@ -67,12 +67,12 @@ int main(int argc, char **argv)
     server.sin_port = port;                      /* Server Port        */
     server.sin_addr.s_addr = inet_addr(argv[1]); /* Server's Address   */
 
-    strcpy(message, "Hello");
+    strcpy(buffer, "Hello");
 
-    /* send the message in message to the server */
-    serverlen = sizeof(server);
+    /* send the message in buffer to the server */
+    server_length = sizeof(server);
     printf("before sending... port 0x%x address 0x%x \n", server.sin_port, server.sin_addr.s_addr);
-    n = sendto(s, message, strlen(message), 0, (struct sockaddr *) &server, serverlen);
+    n = sendto(s, buffer, strlen(buffer), 0, (struct sockaddr *) &server, server_length);
     printf("after sending...\n");
     if (n < 0)
         error("ERROR in sendto");
@@ -80,15 +80,15 @@ int main(int argc, char **argv)
     /* receive the message from server */
     printf("before receiving...\n");
     fflush(stdout);
-    serverlen = sizeof(server);
-    n = recvfrom(s, message, sizeof(message), 0, (struct sockaddr *) &server, &serverlen);
+    server_length = sizeof(server);
+    n = recvfrom(s, buffer, sizeof(buffer), 0, (struct sockaddr *) &server, &server_length);
     printf("after receiving...\n");
     fflush(stdout);
     if (n < 0)
         error("ERROR in recvfrom");
 
     /* print server reponse */
-    printf("Echo from server: %s", message);
+    printf("Echo from server: %s", buffer);
     close(s);
     return 0;
 }
