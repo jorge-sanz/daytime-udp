@@ -10,6 +10,7 @@ First, set up the environment:
 git clone https://gitlab.com/jorgesanz/daytime-udp # Clone repository
 cd daytime-udp # Go to repository folder
 docker run --name=ubuntu-daytime-udp -it -v $(PWD):/home ubuntu # Run Ubuntu container sharing repository folder
+
 # Inside the container. Get the C compiler tools
 apt-get update
 apt-get install build-essential
