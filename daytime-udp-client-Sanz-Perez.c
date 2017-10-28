@@ -9,6 +9,8 @@
 #include <errno.h>
 #include <unistd.h>
 
+#define BUFSIZE 1024
+
 /* wrapper for perror */
 void error(char *msg) {
     perror(msg);
@@ -20,7 +22,7 @@ int main(int argc, char **argv)
     int s; /* socket */
     int port; /* port number */
     struct sockaddr_in server; /* server structure */
-    char buffer[32]; /* messages buffer */
+    char buffer[BUFSIZE]; /* messages buffer */
     int n; /* flag variable for errors */
     struct servent *application_name; /* application structure */
     unsigned int server_length; /* length of server structure */
