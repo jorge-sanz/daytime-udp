@@ -29,7 +29,7 @@ int main(int argc, char **argv)
     if (argc < 2)
     {
         fprintf(stderr, "usage: %s address.IP.server (mandatory) port-number (optional)\n", argv[0]);
-        exit(0);
+        exit(EXIT_FAILURE);
     }
 
     /* get port number from arguments */

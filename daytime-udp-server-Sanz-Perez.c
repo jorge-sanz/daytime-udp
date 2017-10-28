@@ -22,12 +22,12 @@ int main(int argc, char **argv)
 {
 	int port; /* port to listen on */
 	int s;	/* socket */
-	int clientlen;
+	int client_length;
 	struct servent *appl_name;
-	struct sockaddr_in serveraddr;
-	struct sockaddr_in clientaddr;
+	struct sockaddr_in server_address;
+	struct sockaddr_in client_address;
 	char buffer[32];
-	int n;				/* message byte size */
+	int n; /* message byte size */
 	char hostname[128]; /* server hostname */
 	FILE *file;
 
@@ -67,21 +67,21 @@ int main(int argc, char **argv)
 	if (s < 0)
 		error("ERROR opening socket");
 
-	serveraddr.sin_family = AF_INET;		 /* Server is in Internet Domain */
-	serveraddr.sin_port = port;				 /* Use any available port */
-	serveraddr.sin_addr.s_addr = INADDR_ANY; /* Server's Internet Address */
+	server_address.sin_family = AF_INET;		 /* Server is in Internet Domain */
+	server_address.sin_port = port;				 /* Use any available port */
+	server_address.sin_addr.s_addr = INADDR_ANY; /* Server's Internet Address */
 
 	/* bind: associate the parent socket with a port */
-	if (bind(s, (struct sockaddr *)&serveraddr, sizeof(serveraddr)) < 0)
+	if (bind(s, (struct sockaddr *) &server_address, sizeof(server_address)) < 0)
 		error("ERROR on binding");
 
 	/* main loop: wait for a datagram, then echo it */
-	clientlen = sizeof(clientaddr);
+	client_length = sizeof(client_address);
 	while (1)
 	{
 		/* recvfrom: receive a UDP datagram from a client */
 		bzero(buffer, 32);
-		n = recvfrom(s, buffer, BUFSIZE, 0, (struct sockaddr *)&clientaddr, (socklen_t *)&clientlen);
+		n = recvfrom(s, buffer, BUFSIZE, 0, (struct sockaddr *) &client_address, (socklen_t *) &client_length);
 		if (n < 0)
 			error("ERROR in recvfrom");
 
@@ -104,7 +104,7 @@ int main(int argc, char **argv)
 		printf("Date: %s\n", buffer);
 
 		/* send date to client */
-		n = sendto(s, buffer, strlen(buffer), 0, (struct sockaddr *) &clientaddr, clientlen);
+		n = sendto(s, buffer, strlen(buffer), 0, (struct sockaddr *) &client_address, client_length);
 		if (n < 0)
 			error("ERROR in sendto");
 	}
