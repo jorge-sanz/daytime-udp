@@ -39,6 +39,7 @@ Run server:
 To run a client, you need to open another terminal in the container:
 ```bash
 docker exec -it ubuntu-daytime-udp bash
+
 # Inside the container
 cd /home
 ./client.out [server.IP.address] [port-number] #  server.IP.address is mandatory, port-number is optional
