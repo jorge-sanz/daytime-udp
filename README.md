@@ -42,5 +42,5 @@ docker exec -it ubuntu-daytime-udp bash
 
 # Inside the container
 cd /home
-./client.out [server.IP.address] [port-number] #  server.IP.address is mandatory, port-number is optional
+./client.out [server.IP.address] [port-number] # server.IP.address is mandatory, port-number is optional
 ```
