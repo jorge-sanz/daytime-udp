@@ -7,7 +7,7 @@ DAYTIME protocol iterative server and client using UDP sockets written in C. Pro
 ## Development
 First, set up the environment:
 ```bash
-git clone https://gitlab.com/jorgesanz/daytime-udp # Clone repository
+git clone https://github.com/jorge-sanz/daytime-udp # Clone repository
 cd daytime-udp # Go to repository folder
 docker run --name=ubuntu-daytime-udp -it -v $(PWD):/home ubuntu # Run Ubuntu container sharing repository folder
 
