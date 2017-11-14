@@ -1,4 +1,4 @@
-// Practica tema 5, Sanz Pérez Joge
+// Practica tema 5, Sanz Pérez Jorge
 
 #include <stdio.h>
 #include <stdlib.h>
